@@ -1,0 +1,809 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "MLB Data API",
+    "description": "CSE341 | Major League Baseball Data API",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http", "https"],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/teams/": {
+      "get": {
+        "tags": ["Teams"],
+        "description": "",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "example": "507f1f77bcf86cd799439011"
+                  },
+                  "teamName": {
+                    "example": "Baltimore Orioles"
+                  },
+                  "nickname": {
+                    "example": "Orioles"
+                  },
+                  "city": {
+                    "example": "Baltimore"
+                  },
+                  "state": {
+                    "example": "Maryland"
+                  },
+                  "stadium": {
+                    "example": "Oriole Park at Camden Yards"
+                  },
+                  "founded": {
+                    "example": 1901
+                  },
+                  "league": {
+                    "example": "American League"
+                  },
+                  "division": {
+                    "example": "East"
+                  },
+                  "worldSeriesWins": {
+                    "example": 3
+                  },
+                  "currentManager": {
+                    "example": "Brandon Hyde"
+                  },
+                  "primaryColor": {
+                    "example": "#DF4601"
+                  },
+                  "secondaryColor": {
+                    "example": "#000000"
+                  },
+                  "website": {
+                    "example": "https://www.mlb.com/orioles"
+                  },
+                  "twitter": {
+                    "example": "@Orioles"
+                  },
+                  "ballparkCapacity": {
+                    "example": 45971
+                  },
+                  "owner": {
+                    "example": "Peter Angelos"
+                  },
+                  "mascot": {
+                    "example": "The Oriole Bird"
+                  },
+                  "firstSeason": {
+                    "example": 1901
+                  },
+                  "franchiseValue": {
+                    "example": 1700000000
+                  },
+                  "payroll": {
+                    "example": 53200000
+                  },
+                  "divisionTitles": {
+                    "example": 9
+                  },
+                  "pennantWins": {
+                    "example": 7
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Teams"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "teamName": {
+                  "example": "Baltimore Orioles"
+                },
+                "nickname": {
+                  "example": "Orioles"
+                },
+                "city": {
+                  "example": "Baltimore"
+                },
+                "state": {
+                  "example": "Maryland"
+                },
+                "stadium": {
+                  "example": "Oriole Park at Camden Yards"
+                },
+                "founded": {
+                  "example": 1901
+                },
+                "league": {
+                  "example": "American League"
+                },
+                "division": {
+                  "example": "East"
+                },
+                "worldSeriesWins": {
+                  "example": 3
+                },
+                "currentManager": {
+                  "example": "Brandon Hyde"
+                },
+                "primaryColor": {
+                  "example": "#DF4601"
+                },
+                "secondaryColor": {
+                  "example": "#000000"
+                },
+                "website": {
+                  "example": "https://www.mlb.com/orioles"
+                },
+                "twitter": {
+                  "example": "@Orioles"
+                },
+                "ballparkCapacity": {
+                  "example": 45971
+                },
+                "owner": {
+                  "example": "Peter Angelos"
+                },
+                "mascot": {
+                  "example": "The Oriole Bird"
+                },
+                "firstSeason": {
+                  "example": 1901
+                },
+                "franchiseValue": {
+                  "example": 1700000000
+                },
+                "payroll": {
+                  "example": 53200000
+                },
+                "divisionTitles": {
+                  "example": 9
+                },
+                "pennantWins": {
+                  "example": 7
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/teams/{id}": {
+      "get": {
+        "tags": ["Teams"],
+        "description": "",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "example": "507f1f77bcf86cd799439011"
+                },
+                "teamName": {
+                  "example": "Baltimore Orioles"
+                },
+                "nickname": {
+                  "example": "Orioles"
+                },
+                "city": {
+                  "example": "Baltimore"
+                },
+                "state": {
+                  "example": "Maryland"
+                },
+                "stadium": {
+                  "example": "Oriole Park at Camden Yards"
+                },
+                "founded": {
+                  "example": 1901
+                },
+                "league": {
+                  "example": "American League"
+                },
+                "division": {
+                  "example": "East"
+                },
+                "worldSeriesWins": {
+                  "example": 3
+                },
+                "currentManager": {
+                  "example": "Brandon Hyde"
+                },
+                "primaryColor": {
+                  "example": "#DF4601"
+                },
+                "secondaryColor": {
+                  "example": "#000000"
+                },
+                "website": {
+                  "example": "https://www.mlb.com/orioles"
+                },
+                "twitter": {
+                  "example": "@Orioles"
+                },
+                "ballparkCapacity": {
+                  "example": 45971
+                },
+                "owner": {
+                  "example": "Peter Angelos"
+                },
+                "mascot": {
+                  "example": "The Oriole Bird"
+                },
+                "firstSeason": {
+                  "example": 1901
+                },
+                "franchiseValue": {
+                  "example": 1700000000
+                },
+                "payroll": {
+                  "example": 53200000
+                },
+                "divisionTitles": {
+                  "example": 9
+                },
+                "pennantWins": {
+                  "example": 7
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Teams"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "teamName": {
+                  "example": "Baltimore Orioles"
+                },
+                "nickname": {
+                  "example": "Orioles"
+                },
+                "city": {
+                  "example": "Baltimore"
+                },
+                "state": {
+                  "example": "Maryland"
+                },
+                "stadium": {
+                  "example": "Oriole Park at Camden Yards"
+                },
+                "founded": {
+                  "example": 1901
+                },
+                "league": {
+                  "example": "American League"
+                },
+                "division": {
+                  "example": "East"
+                },
+                "worldSeriesWins": {
+                  "example": 3
+                },
+                "currentManager": {
+                  "example": "Brandon Hyde"
+                },
+                "primaryColor": {
+                  "example": "#DF4601"
+                },
+                "secondaryColor": {
+                  "example": "#000000"
+                },
+                "website": {
+                  "example": "https://www.mlb.com/orioles"
+                },
+                "twitter": {
+                  "example": "@Orioles"
+                },
+                "ballparkCapacity": {
+                  "example": 45971
+                },
+                "owner": {
+                  "example": "Peter Angelos"
+                },
+                "mascot": {
+                  "example": "The Oriole Bird"
+                },
+                "firstSeason": {
+                  "example": 1901
+                },
+                "franchiseValue": {
+                  "example": 1700000000
+                },
+                "payroll": {
+                  "example": 53200000
+                },
+                "divisionTitles": {
+                  "example": 9
+                },
+                "pennantWins": {
+                  "example": 7
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Teams"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/cy-young-winners/": {
+      "get": {
+        "tags": ["Cy Young Winners"],
+        "description": "",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "example": "507f1f77bcf86cd799439012"
+                  },
+                  "year": {
+                    "example": 2024
+                  },
+                  "league": {
+                    "example": "American League"
+                  },
+                  "playerName": {
+                    "example": "Corbin Burnes"
+                  },
+                  "team": {
+                    "example": "Baltimore Orioles"
+                  },
+                  "wins": {
+                    "example": 15
+                  },
+                  "losses": {
+                    "example": 9
+                  },
+                  "era": {
+                    "example": 2.92
+                  },
+                  "strikeouts": {
+                    "example": 167
+                  },
+                  "inningsPitched": {
+                    "example": 193.1
+                  },
+                  "saves": {
+                    "example": 0
+                  },
+                  "war": {
+                    "example": 4.5
+                  },
+                  "whip": {
+                    "example": 1.12
+                  },
+                  "age": {
+                    "example": 29
+                  },
+                  "position": {
+                    "example": "SP"
+                  },
+                  "allStarAppearances": {
+                    "example": 1
+                  },
+                  "otherAwards": {
+                    "example": "NL Cy Young (2021)"
+                  },
+                  "careerCyYoungWins": {
+                    "example": 2
+                  },
+                  "hallOfFame": {
+                    "example": "No"
+                  },
+                  "rookieOfTheYear": {
+                    "example": false
+                  },
+                  "mvpFinish": {
+                    "example": "Did not place"
+                  },
+                  "eraPlus": {
+                    "example": 162
+                  },
+                  "fip": {
+                    "example": 3.15
+                  },
+                  "completeGames": {
+                    "example": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Cy Young Winners"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "year": {
+                  "example": 2024
+                },
+                "league": {
+                  "example": "American League"
+                },
+                "playerName": {
+                  "example": "Corbin Burnes"
+                },
+                "team": {
+                  "example": "Baltimore Orioles"
+                },
+                "wins": {
+                  "example": 15
+                },
+                "losses": {
+                  "example": 9
+                },
+                "era": {
+                  "example": 2.92
+                },
+                "strikeouts": {
+                  "example": 167
+                },
+                "inningsPitched": {
+                  "example": 193.1
+                },
+                "saves": {
+                  "example": 0
+                },
+                "war": {
+                  "example": 4.5
+                },
+                "whip": {
+                  "example": 1.12
+                },
+                "age": {
+                  "example": 29
+                },
+                "position": {
+                  "example": "SP"
+                },
+                "allStarAppearances": {
+                  "example": 1
+                },
+                "otherAwards": {
+                  "example": "NL Cy Young (2021)"
+                },
+                "careerCyYoungWins": {
+                  "example": 2
+                },
+                "hallOfFame": {
+                  "example": "No"
+                },
+                "rookieOfTheYear": {
+                  "example": false
+                },
+                "mvpFinish": {
+                  "example": "Did not place"
+                },
+                "eraPlus": {
+                  "example": 162
+                },
+                "fip": {
+                  "example": 3.15
+                },
+                "completeGames": {
+                  "example": 0
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/cy-young-winners/{id}": {
+      "get": {
+        "tags": ["Cy Young Winners"],
+        "description": "",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "example": "507f1f77bcf86cd799439012"
+                },
+                "year": {
+                  "example": 2024
+                },
+                "league": {
+                  "example": "American League"
+                },
+                "playerName": {
+                  "example": "Corbin Burnes"
+                },
+                "team": {
+                  "example": "Baltimore Orioles"
+                },
+                "wins": {
+                  "example": 15
+                },
+                "losses": {
+                  "example": 9
+                },
+                "era": {
+                  "example": 2.92
+                },
+                "strikeouts": {
+                  "example": 167
+                },
+                "inningsPitched": {
+                  "example": 193.1
+                },
+                "saves": {
+                  "example": 0
+                },
+                "war": {
+                  "example": 4.5
+                },
+                "whip": {
+                  "example": 1.12
+                },
+                "age": {
+                  "example": 29
+                },
+                "position": {
+                  "example": "SP"
+                },
+                "allStarAppearances": {
+                  "example": 1
+                },
+                "otherAwards": {
+                  "example": "NL Cy Young (2021)"
+                },
+                "careerCyYoungWins": {
+                  "example": 2
+                },
+                "hallOfFame": {
+                  "example": "No"
+                },
+                "rookieOfTheYear": {
+                  "example": false
+                },
+                "mvpFinish": {
+                  "example": "Did not place"
+                },
+                "eraPlus": {
+                  "example": 162
+                },
+                "fip": {
+                  "example": 3.15
+                },
+                "completeGames": {
+                  "example": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Cy Young Winners"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "year": {
+                  "example": 2024
+                },
+                "league": {
+                  "example": "American League"
+                },
+                "playerName": {
+                  "example": "Corbin Burnes"
+                },
+                "team": {
+                  "example": "Baltimore Orioles"
+                },
+                "wins": {
+                  "example": 15
+                },
+                "losses": {
+                  "example": 9
+                },
+                "era": {
+                  "example": 2.92
+                },
+                "strikeouts": {
+                  "example": 167
+                },
+                "inningsPitched": {
+                  "example": 193.1
+                },
+                "saves": {
+                  "example": 0
+                },
+                "war": {
+                  "example": 4.5
+                },
+                "whip": {
+                  "example": 1.12
+                },
+                "age": {
+                  "example": 29
+                },
+                "position": {
+                  "example": "SP"
+                },
+                "allStarAppearances": {
+                  "example": 1
+                },
+                "otherAwards": {
+                  "example": "NL Cy Young (2021)"
+                },
+                "careerCyYoungWins": {
+                  "example": 2
+                },
+                "hallOfFame": {
+                  "example": "No"
+                },
+                "rookieOfTheYear": {
+                  "example": false
+                },
+                "mvpFinish": {
+                  "example": "Did not place"
+                },
+                "eraPlus": {
+                  "example": 162
+                },
+                "fip": {
+                  "example": 3.15
+                },
+                "completeGames": {
+                  "example": 0
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Cy Young Winners"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

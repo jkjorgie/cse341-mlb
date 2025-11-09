@@ -1,0 +1,30 @@
+{
+  "name": "cse341-mlb",
+  "version": "1.0.0",
+  "description": "CSE341 | Major League Baseball Data",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Error: no linter specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkjorgie/cse341-mlb.git"
+  },
+  "author": "Jay Jorgensen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkjorgie/cse341-mlb/issues"
+  },
+  "homepage": "https://github.com/jkjorgie/cse341-mlb#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongodb": "^7.0.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

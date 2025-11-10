@@ -24,11 +24,28 @@ const getSingleTeam = async (req, res) => {
 
 const createTeam = async (req, res) => {
   const team = {
-    name: req.body.name,
+    teamName: req.body.teamName,
+    nickname: req.body.nickname,
     city: req.body.city,
+    state: req.body.state,
+    stadium: req.body.stadium,
+    founded: req.body.founded,
     league: req.body.league,
     division: req.body.division,
-    stadium: req.body.stadium,
+    worldSeriesWins: req.body.worldSeriesWins,
+    currentManager: req.body.currentManager,
+    primaryColor: req.body.primaryColor,
+    secondaryColor: req.body.secondaryColor,
+    website: req.body.website,
+    twitter: req.body.twitter,
+    ballparkCapacity: req.body.ballparkCapacity,
+    owner: req.body.owner,
+    mascot: req.body.mascot,
+    firstSeason: req.body.firstSeason,
+    franchiseValue: req.body.franchiseValue,
+    payroll: req.body.payroll,
+    divisionTitles: req.body.divisionTitles,
+    pennantWins: req.body.pennantWins,
   };
 
   const response = await mongodb
@@ -48,11 +65,28 @@ const createTeam = async (req, res) => {
 const updateTeam = async (req, res) => {
   const teamId = new ObjectId(req.params.id);
   const team = {
-    name: req.body.name,
+    teamName: req.body.teamName,
+    nickname: req.body.nickname,
     city: req.body.city,
+    state: req.body.state,
+    stadium: req.body.stadium,
+    founded: req.body.founded,
     league: req.body.league,
     division: req.body.division,
-    stadium: req.body.stadium,
+    worldSeriesWins: req.body.worldSeriesWins,
+    currentManager: req.body.currentManager,
+    primaryColor: req.body.primaryColor,
+    secondaryColor: req.body.secondaryColor,
+    website: req.body.website,
+    twitter: req.body.twitter,
+    ballparkCapacity: req.body.ballparkCapacity,
+    owner: req.body.owner,
+    mascot: req.body.mascot,
+    firstSeason: req.body.firstSeason,
+    franchiseValue: req.body.franchiseValue,
+    payroll: req.body.payroll,
+    divisionTitles: req.body.divisionTitles,
+    pennantWins: req.body.pennantWins,
   };
   const response = await mongodb
     .getDatabase()

@@ -28,13 +28,29 @@ const getSingleWinner = async (req, res) => {
 
 const createWinner = async (req, res) => {
   const winner = {
-    player: req.body.player,
-    team: req.body.team,
     year: req.body.year,
     league: req.body.league,
-    era: req.body.era,
+    playerName: req.body.playerName,
+    team: req.body.team,
     wins: req.body.wins,
+    losses: req.body.losses,
+    era: req.body.era,
     strikeouts: req.body.strikeouts,
+    inningsPitched: req.body.inningsPitched,
+    saves: req.body.saves,
+    war: req.body.war,
+    whip: req.body.whip,
+    age: req.body.age,
+    position: req.body.position,
+    allStarAppearances: req.body.allStarAppearances,
+    otherAwards: req.body.otherAwards,
+    careerCyYoungWins: req.body.careerCyYoungWins,
+    hallOfFame: req.body.hallOfFame,
+    rookieOfTheYear: req.body.rookieOfTheYear,
+    mvpFinish: req.body.mvpFinish,
+    eraPlus: req.body.eraPlus,
+    fip: req.body.fip,
+    completeGames: req.body.completeGames,
   };
 
   const response = await mongodb
@@ -54,13 +70,29 @@ const createWinner = async (req, res) => {
 const updateWinner = async (req, res) => {
   const winnerId = new ObjectId(req.params.id);
   const winner = {
-    player: req.body.player,
-    team: req.body.team,
     year: req.body.year,
     league: req.body.league,
-    era: req.body.era,
+    playerName: req.body.playerName,
+    team: req.body.team,
     wins: req.body.wins,
+    losses: req.body.losses,
+    era: req.body.era,
     strikeouts: req.body.strikeouts,
+    inningsPitched: req.body.inningsPitched,
+    saves: req.body.saves,
+    war: req.body.war,
+    whip: req.body.whip,
+    age: req.body.age,
+    position: req.body.position,
+    allStarAppearances: req.body.allStarAppearances,
+    otherAwards: req.body.otherAwards,
+    careerCyYoungWins: req.body.careerCyYoungWins,
+    hallOfFame: req.body.hallOfFame,
+    rookieOfTheYear: req.body.rookieOfTheYear,
+    mvpFinish: req.body.mvpFinish,
+    eraPlus: req.body.eraPlus,
+    fip: req.body.fip,
+    completeGames: req.body.completeGames,
   };
   const response = await mongodb
     .getDatabase()

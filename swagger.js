@@ -1,4 +1,4 @@
-const swaggerUi = require("swagger-ui-express");
+const swaggerAutogen = require("swagger-autogen")();
 
 const doc = {
   info: {
@@ -272,4 +272,7 @@ const doc = {
   },
 };
 
-module.exports = { swaggerUi, doc };
+const outputFile = "./swagger.json";
+const endpointsFiles = ["./server.js"];
+
+swaggerAutogen(outputFile, endpointsFiles, doc);

@@ -1,5 +1,65 @@
 const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
+const {
+  toNumber,
+  trimString,
+  validateRequiredStrings,
+  validateNumericFields,
+} = require("./utilities");
+
+const validateTeam = (body) => {
+  const errors = [];
+
+  const team = {
+    teamName: trimString(body.teamName),
+    nickname: trimString(body.nickname),
+    city: trimString(body.city),
+    state: trimString(body.state),
+    stadium: trimString(body.stadium),
+    founded: toNumber(body.founded),
+    league: trimString(body.league),
+    division: trimString(body.division),
+    worldSeriesWins: toNumber(body.worldSeriesWins),
+    currentManager: trimString(body.currentManager),
+    primaryColor: trimString(body.primaryColor),
+    secondaryColor: trimString(body.secondaryColor),
+    website: trimString(body.website),
+    twitter: trimString(body.twitter),
+    ballparkCapacity: toNumber(body.ballparkCapacity),
+    owner: trimString(body.owner),
+    mascot: trimString(body.mascot),
+    firstSeason: toNumber(body.firstSeason),
+    franchiseValue: toNumber(body.franchiseValue),
+    payroll: toNumber(body.payroll),
+    divisionTitles: toNumber(body.divisionTitles),
+    pennantWins: toNumber(body.pennantWins),
+  };
+
+  // Required string fields
+  validateRequiredStrings(
+    team,
+    ["teamName", "city", "league", "division"],
+    errors
+  );
+
+  // Numeric fields: if provided, must be valid numbers
+  validateNumericFields(
+    team,
+    [
+      "founded",
+      "worldSeriesWins",
+      "ballparkCapacity",
+      "firstSeason",
+      "franchiseValue",
+      "payroll",
+      "divisionTitles",
+      "pennantWins",
+    ],
+    errors
+  );
+
+  return { errors, team };
+};
 
 const getAllTeams = async (req, res) => {
   try {
@@ -66,30 +126,10 @@ const getSingleTeam = async (req, res) => {
 };
 
 const createTeam = async (req, res) => {
-  const team = {
-    teamName: req.body.teamName,
-    nickname: req.body.nickname,
-    city: req.body.city,
-    state: req.body.state,
-    stadium: req.body.stadium,
-    founded: req.body.founded,
-    league: req.body.league,
-    division: req.body.division,
-    worldSeriesWins: req.body.worldSeriesWins,
-    currentManager: req.body.currentManager,
-    primaryColor: req.body.primaryColor,
-    secondaryColor: req.body.secondaryColor,
-    website: req.body.website,
-    twitter: req.body.twitter,
-    ballparkCapacity: req.body.ballparkCapacity,
-    owner: req.body.owner,
-    mascot: req.body.mascot,
-    firstSeason: req.body.firstSeason,
-    franchiseValue: req.body.franchiseValue,
-    payroll: req.body.payroll,
-    divisionTitles: req.body.divisionTitles,
-    pennantWins: req.body.pennantWins,
-  };
+  const { errors, team } = validateTeam(req.body);
+  if (errors.length) {
+    return res.status(400).json({ message: "Validation failed", errors });
+  }
 
   const response = await mongodb
     .getDatabase()
@@ -106,31 +146,17 @@ const createTeam = async (req, res) => {
 };
 
 const updateTeam = async (req, res) => {
-  const teamId = new ObjectId(req.params.id);
-  const team = {
-    teamName: req.body.teamName,
-    nickname: req.body.nickname,
-    city: req.body.city,
-    state: req.body.state,
-    stadium: req.body.stadium,
-    founded: req.body.founded,
-    league: req.body.league,
-    division: req.body.division,
-    worldSeriesWins: req.body.worldSeriesWins,
-    currentManager: req.body.currentManager,
-    primaryColor: req.body.primaryColor,
-    secondaryColor: req.body.secondaryColor,
-    website: req.body.website,
-    twitter: req.body.twitter,
-    ballparkCapacity: req.body.ballparkCapacity,
-    owner: req.body.owner,
-    mascot: req.body.mascot,
-    firstSeason: req.body.firstSeason,
-    franchiseValue: req.body.franchiseValue,
-    payroll: req.body.payroll,
-    divisionTitles: req.body.divisionTitles,
-    pennantWins: req.body.pennantWins,
-  };
+  let teamId;
+  try {
+    teamId = new ObjectId(req.params.id);
+  } catch (e) {
+    return res.status(400).json({ message: "Invalid team ID format" });
+  }
+
+  const { errors, team } = validateTeam(req.body);
+  if (errors.length) {
+    return res.status(400).json({ message: "Validation failed", errors });
+  }
   const response = await mongodb
     .getDatabase()
     .db()

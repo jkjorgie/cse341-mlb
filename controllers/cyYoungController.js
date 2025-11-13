@@ -1,5 +1,83 @@
 const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
+const {
+  toNumber,
+  toBoolean,
+  trimString,
+  validateRequiredStrings,
+  validateNumericFields,
+  validateBooleanFields,
+} = require("./utilities");
+
+const validateWinner = (body) => {
+  const errors = [];
+
+  const winner = {
+    year: toNumber(body.year),
+    league: trimString(body.league),
+    playerName: trimString(body.playerName),
+    team: trimString(body.team),
+    wins: toNumber(body.wins),
+    losses: toNumber(body.losses),
+    era: toNumber(body.era),
+    strikeouts: toNumber(body.strikeouts),
+    inningsPitched: toNumber(body.inningsPitched),
+    saves: toNumber(body.saves),
+    war: toNumber(body.war),
+    whip: toNumber(body.whip),
+    age: toNumber(body.age),
+    position: trimString(body.position),
+    allStarAppearances: toNumber(body.allStarAppearances),
+    otherAwards: body.otherAwards, // allow string or array
+    careerCyYoungWins: toNumber(body.careerCyYoungWins),
+    hallOfFame: toBoolean(body.hallOfFame),
+    rookieOfTheYear: toBoolean(body.rookieOfTheYear),
+    mvpFinish:
+      body.mvpFinish === undefined ||
+      body.mvpFinish === null ||
+      body.mvpFinish === ""
+        ? undefined
+        : Number.isFinite(Number(body.mvpFinish))
+        ? Number(body.mvpFinish)
+        : body.mvpFinish, // accept string like "2nd" or number
+    eraPlus: toNumber(body.eraPlus),
+    fip: toNumber(body.fip),
+    completeGames: toNumber(body.completeGames),
+  };
+
+  // Required core fields
+  if (!Number.isInteger(winner.year)) {
+    errors.push("year is required and must be an integer");
+  }
+  validateRequiredStrings(winner, ["league", "playerName", "team"], errors);
+
+  // Numeric-if-provided validations
+  validateNumericFields(
+    winner,
+    [
+      "wins",
+      "losses",
+      "era",
+      "strikeouts",
+      "inningsPitched",
+      "saves",
+      "war",
+      "whip",
+      "age",
+      "allStarAppearances",
+      "careerCyYoungWins",
+      "eraPlus",
+      "fip",
+      "completeGames",
+    ],
+    errors
+  );
+
+  // Boolean-if-provided validations
+  validateBooleanFields(winner, ["hallOfFame", "rookieOfTheYear"], errors);
+
+  return { errors, winner };
+};
 
 const getAllWinners = async (req, res) => {
   try {
@@ -70,31 +148,10 @@ const getSingleWinner = async (req, res) => {
 };
 
 const createWinner = async (req, res) => {
-  const winner = {
-    year: req.body.year,
-    league: req.body.league,
-    playerName: req.body.playerName,
-    team: req.body.team,
-    wins: req.body.wins,
-    losses: req.body.losses,
-    era: req.body.era,
-    strikeouts: req.body.strikeouts,
-    inningsPitched: req.body.inningsPitched,
-    saves: req.body.saves,
-    war: req.body.war,
-    whip: req.body.whip,
-    age: req.body.age,
-    position: req.body.position,
-    allStarAppearances: req.body.allStarAppearances,
-    otherAwards: req.body.otherAwards,
-    careerCyYoungWins: req.body.careerCyYoungWins,
-    hallOfFame: req.body.hallOfFame,
-    rookieOfTheYear: req.body.rookieOfTheYear,
-    mvpFinish: req.body.mvpFinish,
-    eraPlus: req.body.eraPlus,
-    fip: req.body.fip,
-    completeGames: req.body.completeGames,
-  };
+  const { errors, winner } = validateWinner(req.body);
+  if (errors.length) {
+    return res.status(400).json({ message: "Validation failed", errors });
+  }
 
   const response = await mongodb
     .getDatabase()
@@ -111,32 +168,16 @@ const createWinner = async (req, res) => {
 };
 
 const updateWinner = async (req, res) => {
-  const winnerId = new ObjectId(req.params.id);
-  const winner = {
-    year: req.body.year,
-    league: req.body.league,
-    playerName: req.body.playerName,
-    team: req.body.team,
-    wins: req.body.wins,
-    losses: req.body.losses,
-    era: req.body.era,
-    strikeouts: req.body.strikeouts,
-    inningsPitched: req.body.inningsPitched,
-    saves: req.body.saves,
-    war: req.body.war,
-    whip: req.body.whip,
-    age: req.body.age,
-    position: req.body.position,
-    allStarAppearances: req.body.allStarAppearances,
-    otherAwards: req.body.otherAwards,
-    careerCyYoungWins: req.body.careerCyYoungWins,
-    hallOfFame: req.body.hallOfFame,
-    rookieOfTheYear: req.body.rookieOfTheYear,
-    mvpFinish: req.body.mvpFinish,
-    eraPlus: req.body.eraPlus,
-    fip: req.body.fip,
-    completeGames: req.body.completeGames,
-  };
+  let winnerId;
+  try {
+    winnerId = new ObjectId(req.params.id);
+  } catch (e) {
+    return res.status(400).json({ message: "Invalid winner ID format" });
+  }
+  const { errors, winner } = validateWinner(req.body);
+  if (errors.length) {
+    return res.status(400).json({ message: "Validation failed", errors });
+  }
   const response = await mongodb
     .getDatabase()
     .db()

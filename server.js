@@ -29,8 +29,8 @@ mongodb.initDb((err, mongodb) => {
     console.log(err);
   } else {
     app.listen(port, () => {
-      console.log(`🏏 MLB Data API listening on port ${port}`);
-      console.log(`🚀 Server running at http://localhost:${port}`);
+      console.log(`MLB Data API listening on port ${port}`);
+      console.log(`Server running at http://localhost:${port}`);
     });
   }
 });

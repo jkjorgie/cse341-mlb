@@ -2,28 +2,71 @@ const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
 
 const getAllWinners = async (req, res) => {
-  const result = await mongodb
-    .getDatabase()
-    .db()
-    .collection("cy_young_winners")
-    .find();
-  result.toArray().then((winners) => {
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(winners);
-  });
+  try {
+    const result = await mongodb
+      .getDatabase()
+      .db()
+      .collection("cy_young_winners")
+      .find();
+    result
+      .toArray()
+      .then((winners) => {
+        res.setHeader("Content-Type", "application/json");
+        res.status(200).json(winners);
+      })
+      .catch((err) => {
+        console.error("Error retrieving winners:", err);
+        res.status(500).json({
+          message: "An error occurred while retrieving Cy Young winners",
+        });
+      });
+  } catch (error) {
+    console.error("Database connection error:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while connecting to the database" });
+  }
 };
 
 const getSingleWinner = async (req, res) => {
-  const winnerId = new ObjectId(req.params.id);
-  const result = await mongodb
-    .getDatabase()
-    .db()
-    .collection("cy_young_winners")
-    .find({ _id: winnerId });
-  result.toArray().then((winners) => {
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(winners[0]);
-  });
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({ message: "Winner ID is required" });
+    }
+
+    let winnerId;
+    try {
+      winnerId = new ObjectId(req.params.id);
+    } catch (error) {
+      return res.status(400).json({ message: "Invalid winner ID format" });
+    }
+
+    const result = await mongodb
+      .getDatabase()
+      .db()
+      .collection("cy_young_winners")
+      .find({ _id: winnerId });
+    result
+      .toArray()
+      .then((winners) => {
+        if (winners.length === 0) {
+          return res.status(404).json({ message: "Cy Young winner not found" });
+        }
+        res.setHeader("Content-Type", "application/json");
+        res.status(200).json(winners[0]);
+      })
+      .catch((err) => {
+        console.error("Error retrieving winner:", err);
+        res.status(500).json({
+          message: "An error occurred while retrieving the Cy Young winner",
+        });
+      });
+  } catch (error) {
+    console.error("Database connection error:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while connecting to the database" });
+  }
 };
 
 const createWinner = async (req, res) => {

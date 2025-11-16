@@ -126,63 +126,90 @@ const getSingleTeam = async (req, res) => {
 };
 
 const createTeam = async (req, res) => {
-  const { errors, team } = validateTeam(req.body);
-  if (errors.length) {
-    return res.status(400).json({ message: "Validation failed", errors });
-  }
+  try {
+    const { errors, team } = validateTeam(req.body);
+    if (errors.length) {
+      return res.status(400).json({ message: "Validation failed", errors });
+    }
 
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("teams")
-    .insertOne(team);
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("teams")
+      .insertOne(team);
 
-  if (response && response.acknowledged) {
-    return res.status(201).json({ _id: response.insertedId, ...team });
+    if (response && response.acknowledged) {
+      return res.status(201).json({ _id: response.insertedId, ...team });
+    }
+    return res
+      .status(500)
+      .json({ message: "An error occurred while creating the team" });
+  } catch (error) {
+    console.error("Error creating team:", error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while creating the team" });
   }
-  return res
-    .status(500)
-    .json({ message: "An error occurred while creating the team" });
 };
 
 const updateTeam = async (req, res) => {
-  let teamId;
   try {
-    teamId = new ObjectId(req.params.id);
-  } catch (e) {
-    return res.status(400).json({ message: "Invalid team ID format" });
-  }
+    let teamId;
+    try {
+      teamId = new ObjectId(req.params.id);
+    } catch (e) {
+      return res.status(400).json({ message: "Invalid team ID format" });
+    }
 
-  const { errors, team } = validateTeam(req.body);
-  if (errors.length) {
-    return res.status(400).json({ message: "Validation failed", errors });
+    const { errors, team } = validateTeam(req.body);
+    if (errors.length) {
+      return res.status(400).json({ message: "Validation failed", errors });
+    }
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("teams")
+      .replaceOne({ _id: teamId }, team);
+    if (response && (response.modifiedCount > 0 || response.matchedCount > 0)) {
+      return res.status(204).send();
+    }
+    return res
+      .status(500)
+      .json({ message: "An error occurred while updating the team" });
+  } catch (error) {
+    console.error("Error updating team:", error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while updating the team" });
   }
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("teams")
-    .replaceOne({ _id: teamId }, team);
-  if (response && (response.modifiedCount > 0 || response.matchedCount > 0)) {
-    return res.status(204).send();
-  }
-  return res
-    .status(500)
-    .json({ message: "An error occurred while updating the team" });
 };
 
 const deleteTeam = async (req, res) => {
-  const teamId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("teams")
-    .deleteOne({ _id: teamId });
-  if (response && response.deletedCount > 0) {
-    return res.status(204).send();
+  try {
+    let teamId;
+    try {
+      teamId = new ObjectId(req.params.id);
+    } catch (e) {
+      return res.status(400).json({ message: "Invalid team ID format" });
+    }
+
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("teams")
+      .deleteOne({ _id: teamId });
+    if (response && response.deletedCount > 0) {
+      return res.status(204).send();
+    }
+    return res
+      .status(500)
+      .json({ message: "An error occurred while deleting the team" });
+  } catch (error) {
+    console.error("Error deleting team:", error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while deleting the team" });
   }
-  return res
-    .status(500)
-    .json({ message: "An error occurred while deleting the team" });
 };
 
 module.exports = {

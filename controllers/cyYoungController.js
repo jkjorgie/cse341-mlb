@@ -148,62 +148,89 @@ const getSingleWinner = async (req, res) => {
 };
 
 const createWinner = async (req, res) => {
-  const { errors, winner } = validateWinner(req.body);
-  if (errors.length) {
-    return res.status(400).json({ message: "Validation failed", errors });
-  }
+  try {
+    const { errors, winner } = validateWinner(req.body);
+    if (errors.length) {
+      return res.status(400).json({ message: "Validation failed", errors });
+    }
 
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("cy_young_winners")
-    .insertOne(winner);
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("cy_young_winners")
+      .insertOne(winner);
 
-  if (response && response.acknowledged) {
-    return res.status(201).json({ _id: response.insertedId, ...winner });
+    if (response && response.acknowledged) {
+      return res.status(201).json({ _id: response.insertedId, ...winner });
+    }
+    return res.status(500).json({
+      message: "An error occurred while creating the Cy Young winner",
+    });
+  } catch (error) {
+    console.error("Error creating Cy Young winner:", error);
+    return res.status(500).json({
+      message: "An error occurred while creating the Cy Young winner",
+    });
   }
-  return res
-    .status(500)
-    .json({ message: "An error occurred while creating the Cy Young winner" });
 };
 
 const updateWinner = async (req, res) => {
-  let winnerId;
   try {
-    winnerId = new ObjectId(req.params.id);
-  } catch (e) {
-    return res.status(400).json({ message: "Invalid winner ID format" });
+    let winnerId;
+    try {
+      winnerId = new ObjectId(req.params.id);
+    } catch (e) {
+      return res.status(400).json({ message: "Invalid winner ID format" });
+    }
+    const { errors, winner } = validateWinner(req.body);
+    if (errors.length) {
+      return res.status(400).json({ message: "Validation failed", errors });
+    }
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("cy_young_winners")
+      .replaceOne({ _id: winnerId }, winner);
+    if (response && (response.modifiedCount > 0 || response.matchedCount > 0)) {
+      return res.status(204).send();
+    }
+    return res.status(500).json({
+      message: "An error occurred while updating the Cy Young winner",
+    });
+  } catch (error) {
+    console.error("Error updating Cy Young winner:", error);
+    return res.status(500).json({
+      message: "An error occurred while updating the Cy Young winner",
+    });
   }
-  const { errors, winner } = validateWinner(req.body);
-  if (errors.length) {
-    return res.status(400).json({ message: "Validation failed", errors });
-  }
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("cy_young_winners")
-    .replaceOne({ _id: winnerId }, winner);
-  if (response && (response.modifiedCount > 0 || response.matchedCount > 0)) {
-    return res.status(204).send();
-  }
-  return res
-    .status(500)
-    .json({ message: "An error occurred while updating the Cy Young winner" });
 };
 
 const deleteWinner = async (req, res) => {
-  const winnerId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("cy_young_winners")
-    .deleteOne({ _id: winnerId });
-  if (response && response.deletedCount > 0) {
-    return res.status(204).send();
+  try {
+    let winnerId;
+    try {
+      winnerId = new ObjectId(req.params.id);
+    } catch (e) {
+      return res.status(400).json({ message: "Invalid winner ID format" });
+    }
+
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("cy_young_winners")
+      .deleteOne({ _id: winnerId });
+    if (response && response.deletedCount > 0) {
+      return res.status(204).send();
+    }
+    return res.status(500).json({
+      message: "An error occurred while deleting the Cy Young winner",
+    });
+  } catch (error) {
+    console.error("Error deleting Cy Young winner:", error);
+    return res.status(500).json({
+      message: "An error occurred while deleting the Cy Young winner",
+    });
   }
-  return res
-    .status(500)
-    .json({ message: "An error occurred while deleting the Cy Young winner" });
 };
 
 module.exports = {

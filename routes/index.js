@@ -10,9 +10,15 @@ router.get("/", (req, res) => {
     status: "Running",
     timestamp: new Date().toISOString(),
     docs: "/api-docs",
+    authenticated: req.isAuthenticated(),
+    user: req.isAuthenticated() ? req.user.username : null,
   });
 });
 
+// Authentication routes
+router.use("/auth", require("./auth"));
+
+// API routes
 router.use("/teams", require("./teams"));
 router.use("/cy-young-winners", require("./cyYoungWinners"));
 

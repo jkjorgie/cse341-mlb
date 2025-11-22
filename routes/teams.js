@@ -16,6 +16,6 @@ router.post("/", isAuthenticated, teamsController.createTeam);
 router.put("/:id", isAuthenticated, teamsController.updateTeam);
 
 // #swagger.tags = ['teams']
-router.delete("/:id", teamsController.deleteTeam);
+router.delete("/:id", isAuthenticated, teamsController.deleteTeam);
 
 module.exports = router;

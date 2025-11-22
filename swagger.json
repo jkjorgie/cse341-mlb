@@ -5,7 +5,7 @@
     "description": "CSE341 | Major League Baseball Data API",
     "version": "1.0.0"
   },
-  "host": "https://cse341-mlb.onrender.com",
+  "host": "cse341-mlb.onrender.com",
   "basePath": "",
   "schemes": ["https", "http"],
   "paths": {

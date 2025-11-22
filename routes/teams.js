@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const teamsController = require("../controllers/teamsController");
+const isAuthenticated = require("../middleware/authenticate");
 
 // #swagger.tags = ['teams']
 router.get("/", teamsController.getAllTeams);
@@ -9,10 +10,10 @@ router.get("/", teamsController.getAllTeams);
 router.get("/:id", teamsController.getSingleTeam);
 
 // #swagger.tags = ['teams']
-router.post("/", teamsController.createTeam);
+router.post("/", isAuthenticated, teamsController.createTeam);
 
 // #swagger.tags = ['teams']
-router.put("/:id", teamsController.updateTeam);
+router.put("/:id", isAuthenticated, teamsController.updateTeam);
 
 // #swagger.tags = ['teams']
 router.delete("/:id", teamsController.deleteTeam);
